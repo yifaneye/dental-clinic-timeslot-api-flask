@@ -1,0 +1,212 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Timeslot API",
+    "version": "1.0.0",
+    "description": "API for listing timeslots, retrieving and updating each timeslot"
+  },
+  "basePath": "/v1",
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/timeslots": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "dentist",
+            "description": "Name of the dentist associated with the timeslot",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startTime",
+            "description": "Start time of the timeslot",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "description": "Date of the timeslot",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "description": "Date of the timeslot (available or reserved)",
+            "enum": [
+              "available",
+              "reserved"
+            ],
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully listed the timeslots",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/Timeslot"
+              },
+              "type": "array"
+            }
+          },
+          "405": {
+            "description": "Prohibited HTTP method is used"
+          }
+        },
+        "tags": [
+          "timeslots"
+        ],
+        "description": "Successfully listed the timeslots",
+        "operationId": "listTimeslots"
+      }
+    },
+    "/timeslots/{id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "A unique integer value identifying this timeslot",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the timeslot with the provided ID",
+            "schema": {
+              "$ref": "#/definitions/Timeslot"
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid timeslot ID)"
+          },
+          "404": {
+            "description": "Timeslot with the provided ID is not found"
+          },
+          "405": {
+            "description": "Prohibited HTTP method is used"
+          }
+        },
+        "tags": [
+          "timeslots"
+        ],
+        "description": "Retrieve a timeslot by ID",
+        "operationId": "retrieveTimeslot"
+      },
+      "patch": {
+        "consumes": [
+          "application/json",
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "A unique integer value identifying this timeslot",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "description": "Attributes of the timeslot to change",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Timeslot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the timeslot with the provided ID",
+            "schema": {
+              "$ref": "#/definitions/Timeslot"
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid timeslot ID)"
+          },
+          "404": {
+            "description": "Timeslot with the provided ID is not found"
+          },
+          "405": {
+            "description": "Prohibited HTTP method is used"
+          }
+        },
+        "tags": [
+          "timeslots"
+        ],
+        "description": "Update a timeslot by id",
+        "operationId": "partialUpdateTimeslot"
+      }
+    }
+  },
+  "definitions": {
+    "Timeslot": {
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "type": "integer",
+          "example": 1,
+          "description": "ID of the timeslot"
+        },
+        "date": {
+          "type": "string",
+          "example": "2020-11-16",
+          "description": "Date of the timeslot"
+        },
+        "dentist": {
+          "type": "string",
+          "example": "Dr Green",
+          "description": "Name of the dentist associated with the timeslot"
+        },
+        "startTime": {
+          "type": "string",
+          "example": 9,
+          "description": "Start time of the timeslot"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "reserved"
+          ],
+          "type": "string",
+          "example": "available",
+          "description": "Status of the timeslot"
+        }
+      },
+      "required": [
+        "dentist",
+        "startTime",
+        "date",
+        "status"
+      ],
+      "type": "object"
+    }
+  },
+  "x-components": {}
+}
