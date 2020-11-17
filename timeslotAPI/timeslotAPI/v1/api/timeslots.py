@@ -3,10 +3,9 @@ from __future__ import absolute_import, print_function
 
 import json
 
-from flask import request, g
+from flask import g
 
 from . import Resource
-from .. import schemas
 
 
 class Timeslots(Resource):
