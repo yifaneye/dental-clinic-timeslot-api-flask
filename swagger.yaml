@@ -131,7 +131,7 @@ definitions:
         description: Name of the dentist associated with the timeslot
       startTime:
         type: string
-        example: 9
+        example: '9'
         description: Start time of the timeslot
       status:
         enum:
